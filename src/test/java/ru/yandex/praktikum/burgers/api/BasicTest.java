@@ -1,4 +1,4 @@
-package ru.yandex.praktikum;
+package ru.yandex.praktikum.burgers.api;
 import io.restassured.RestAssured;
 import org.junit.Before;
 

@@ -1,4 +1,4 @@
-package ru.yandex.praktikum;
+package ru.yandex.praktikum.burgers.api.order;
 
 public class Order {
     private String firstName;

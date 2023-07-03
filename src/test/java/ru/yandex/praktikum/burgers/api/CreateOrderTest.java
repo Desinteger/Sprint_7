@@ -1,4 +1,4 @@
-package ru.yandex.praktikum;
+package ru.yandex.praktikum.burgers.api;
 
 import org.junit.Test;
 import org.junit.After;
@@ -6,6 +6,9 @@ import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import ru.yandex.praktikum.burgers.api.order.Order;
+import ru.yandex.praktikum.burgers.api.order.OrderActions;
+
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static org.hamcrest.Matchers.greaterThan;
 
@@ -52,9 +55,9 @@ public class CreateOrderTest extends BasicTest {
             Order order = new Order(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color);
             ValidatableResponse response = orderActions.createOrder(order);
             response.assertThat()
-                    .body("track", greaterThan(0))
+                    .statusCode(HTTP_CREATED)
                     .and()
-                    .statusCode(HTTP_CREATED);
+                    .body("track", greaterThan(0));
             trackNumber = response.extract().path("track");
         }
 

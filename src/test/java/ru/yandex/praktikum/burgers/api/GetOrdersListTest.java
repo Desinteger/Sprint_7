@@ -1,9 +1,11 @@
-package ru.yandex.praktikum;
+package ru.yandex.praktikum.burgers.api;
 
 import org.junit.Test;
 import io.restassured.response.ValidatableResponse;
 import static org.hamcrest.Matchers.*;
 import io.qameta.allure.junit4.DisplayName;
+import ru.yandex.praktikum.burgers.api.order.OrderActions;
+
 import static java.net.HttpURLConnection.HTTP_OK;
 
 @DisplayName("Тесты: получение списка заказов")
@@ -15,7 +17,7 @@ private final OrderActions order = new OrderActions();
       public void testGettingOrdersList() {
             ValidatableResponse response = order.getOrders();
             response.assertThat()
-                  .body("orders", hasSize(greaterThan(0)))
-                  .statusCode(equalTo(HTTP_OK));
+                    .statusCode(equalTo(HTTP_OK))
+                    .body("orders", hasSize(greaterThan(0)));
         }
 }

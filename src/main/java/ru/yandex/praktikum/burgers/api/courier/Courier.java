@@ -1,4 +1,4 @@
-package ru.yandex.praktikum;
+package ru.yandex.praktikum.burgers.api.courier;
 
 public class Courier {
     private String login;

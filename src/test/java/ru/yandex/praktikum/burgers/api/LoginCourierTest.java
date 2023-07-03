@@ -1,9 +1,12 @@
-package ru.yandex.praktikum;
+package ru.yandex.praktikum.burgers.api;
 
 import org.junit.Test;
 import org.junit.After;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
+import ru.yandex.praktikum.burgers.api.courier.Courier;
+import ru.yandex.praktikum.burgers.api.courier.CourierActions;
+
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.equalTo;
 import static java.net.HttpURLConnection.HTTP_OK;
@@ -21,9 +24,9 @@ public class LoginCourierTest extends BasicTest {
         courierActions.createCourier(Courier.generateCourier());
         ValidatableResponse response = courierActions.loginCourier(Courier.generateCourier());
         response.assertThat()
-                .body("id", greaterThan(0))
+                .statusCode(HTTP_OK)
                 .and()
-                .statusCode(HTTP_OK);
+                .body("id", greaterThan(0));
     }
 
     @Test
@@ -32,9 +35,9 @@ public class LoginCourierTest extends BasicTest {
         courier.setLogin("Exodus");
         ValidatableResponse response = courierActions.loginCourier(courier);
         response.assertThat()
-                .body("message", equalTo("Учетная запись не найдена"))
+                .statusCode(HTTP_NOT_FOUND)
                 .and()
-                .statusCode(HTTP_NOT_FOUND);
+                .body("message", equalTo("Учетная запись не найдена"));
     }
 
     @Test
@@ -43,9 +46,9 @@ public class LoginCourierTest extends BasicTest {
         courier.setLogin(null);
         ValidatableResponse response = courierActions.loginCourier(courier);
         response.assertThat()
-                .body("message", equalTo("Недостаточно данных для входа"))
+                .statusCode(HTTP_BAD_REQUEST)
                 .and()
-                .statusCode(HTTP_BAD_REQUEST);
+                .body("message", equalTo("Недостаточно данных для входа"));
     }
 
     @Test
@@ -54,9 +57,9 @@ public class LoginCourierTest extends BasicTest {
         courier.setPassword("некорректныйпароль");
         ValidatableResponse response = courierActions.loginCourier(courier);
         response.assertThat()
-                .body("message", equalTo("Учетная запись не найдена"))
+                .statusCode(HTTP_NOT_FOUND)
                 .and()
-                .statusCode(HTTP_NOT_FOUND);
+                .body("message", equalTo("Учетная запись не найдена"));
     }
 
     @Test
@@ -65,9 +68,9 @@ public class LoginCourierTest extends BasicTest {
         courier.setPassword("");
         ValidatableResponse response = courierActions.loginCourier(courier);
         response.assertThat()
-                .body("message", equalTo("Недостаточно данных для входа"))
+                .statusCode(HTTP_BAD_REQUEST)
                 .and()
-                .statusCode(HTTP_BAD_REQUEST);
+                .body("message", equalTo("Недостаточно данных для входа"));
     }
 
     @After

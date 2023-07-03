@@ -1,4 +1,4 @@
-package ru.yandex.praktikum;
+package ru.yandex.praktikum.burgers.api.courier;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
@@ -11,7 +11,6 @@ public class CourierActions {
     @Step("Cоздание курьера")
     public ValidatableResponse createCourier(Courier courier) {
         return given()
-                .log().all()
                 .header("Content-type", "application/json")
                 .body(courier)
                 .when()
@@ -22,7 +21,6 @@ public class CourierActions {
     @Step("Авторизация курьера")
     public ValidatableResponse loginCourier(Courier courier) {
         return given()
-                .log().all()
                 .header("Content-type", "application/json")
                 .body(courier).
                 when().
@@ -35,9 +33,7 @@ public class CourierActions {
         Courier login = new Courier(Courier.generateCourier().getLogin(), Courier.generateCourier().getPassword());
         Response response =
                 given()
-                        .log().all()
                         .header("Content-type", "application/json")
-                        .and()
                         .body(login)
                         .when()
                         .post(COURIER_LOGIN_PATH);
